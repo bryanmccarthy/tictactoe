@@ -81,6 +81,17 @@ html, body {
   width: 2em;
 }
 
+.GamePanel {
+  width: 640px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.TurnLabel {
+  font-size: 28px;
+}
+
 .Title {
   font-size: 32px;
   margin: 15px;

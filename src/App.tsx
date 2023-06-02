@@ -14,13 +14,19 @@ const winRows = [
   [0, 4, 8]
 ]
 
-function Game() {
-  const [squares, setSquares] = useState<any[]>([
-    '', '', '', '', '', '', '', '', ''
-  ]);
-  const [turn, setTurn] = useState(0);
-  const [winner, setWinner] = useState('');
-  const [displayPopup, setDisplayPopup] = useState(false);
+type GamePropTypes = {
+  squares: any[];
+  setSquares: (value: any) => void;
+  turn: number;
+  setTurn: (value: number) => void;
+  winner: string;
+  setWinner: (value: string) => void;
+  displayPopup: boolean;
+  setDisplayPopup: (value: boolean) => void;
+  handleRestart: () => void;
+}
+
+function Game({squares, setSquares, turn, setTurn, winner, setWinner, displayPopup, setDisplayPopup, handleRestart}: GamePropTypes) {
 
   function handleSetSquare(idx: number, mark: string) {
     let newSquares = [];
@@ -62,13 +68,6 @@ function Game() {
     }
   }
 
-  function handleRestart() {
-    setSquares(['', '', '', '', '', '', '', '', '']);
-    setDisplayPopup(false);
-    setWinner('');
-    setTurn(0);
-  }
-
   return (
     <div className="Game">
       {
@@ -104,10 +103,38 @@ function Popup({ displayPopup, winner, handleRestart }: PopupPropTypes) {
 }
 
 function App() {
+  const [squares, setSquares] = useState<any[]>([
+    '', '', '', '', '', '', '', '', ''
+  ]);
+  const [turn, setTurn] = useState(0);
+  const [winner, setWinner] = useState('');
+  const [displayPopup, setDisplayPopup] = useState(false);
+
+  function handleRestart() {
+    setSquares(['', '', '', '', '', '', '', '', '']);
+    setDisplayPopup(false);
+    setWinner('');
+    setTurn(0);
+  }
+
   return (
     <div className="App">
       <div className="Title">Tic Tac Toe</div>
-      <Game />
+      <Game
+        squares={squares}
+        setSquares={setSquares}
+        turn={turn}
+        setTurn={setTurn}
+        winner={winner}
+        setWinner={setWinner}
+        displayPopup={displayPopup}
+        setDisplayPopup={setDisplayPopup}
+        handleRestart={handleRestart}
+      />
+      <div className="GamePanel">
+        <p className="TurnLabel">{turn === 0 ? "Player 1's turn (X)" : "Player 2's turn (O)"}</p>
+        <button className="RestartButton" onClick={handleRestart}>Restart</button>
+      </div>
     </div>
   )
 }
