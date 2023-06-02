@@ -48,11 +48,17 @@ function Game() {
     for(let i = 0; i < winRows.length; i++) {
       const possibleRow = winRows[i];
       const possibleWinner = squares[possibleRow[0]];
-      if (squares[possibleRow[0]] === '') continue;
-      if (squares[possibleRow[0]] === squares[possibleRow[1]] && squares[possibleRow[0]] === squares[possibleRow[2]]) {
+      if(squares[possibleRow[0]] === '') continue;
+      if(squares[possibleRow[0]] === squares[possibleRow[1]] && squares[possibleRow[0]] === squares[possibleRow[2]]) {
         setWinner(possibleWinner);
         setDisplayPopup(true);
+        return;
       }
+    }
+
+    if(!squares.includes('')) {
+      setWinner('draw');
+      setDisplayPopup(true);
     }
   }
 
@@ -86,7 +92,12 @@ type PopupPropTypes = {
 function Popup({ displayPopup, winner, handleRestart }: PopupPropTypes) {
   return (
     <div style={{visibility: displayPopup ? 'visible' : 'hidden' }} className="Popup">
-      <p className="WinnerText"> { winner } Wins</p>
+      {
+        winner === 'draw' ?
+          <p className="WinnerText">{ winner }</p>
+        :
+          <p className="WinnerText"> { winner } Wins</p>
+      }
       <button className="RestartButton" onClick={handleRestart}>Play again</button>
     </div>
   )
